@@ -1,11 +1,13 @@
-# template-go-chi
+# `template-go-chi`
 
-A minimal production-ready golang template for an HTTP server with [`go-chi/chi`](https://github.com/go-chi/chi).
+A minimal production-ready golang HTTP server with [`go-chi/chi`](https://github.com/go-chi/chi).
 
 ✅ Graceful shutdown \
 ✅ Tracing with OpenTelemetry \
 ✅ Logging with `log/slog` \
 ✅ Rich request logging middleware including bytes written/read, request id, trace id, context propagation, and more
+
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/FdfQPz?referralCode=ToZEjF)
 
 ## Installation
 
