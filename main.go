@@ -11,6 +11,7 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
@@ -37,6 +38,8 @@ func main() {
 
 	r.Use(func(h http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			start := time.Now()
+
 			traceID := trace.SpanFromContext(r.Context()).SpanContext().TraceID()
 			var reqID string
 
@@ -55,13 +58,15 @@ func main() {
 
 			l.Info(
 				"Request handled",
-				"method", r.Method,
-				"path", r.URL.Path,
-				"ua", r.UserAgent(),
-				"ip", r.RemoteAddr,
-				"bw", ww.BytesWritten(),
-				"br", rc.BytesRead(),
-				"status", ww.Status(),
+				slog.String("method", r.Method),
+				slog.String("method", r.Method),
+				slog.String("path", r.URL.Path),
+				slog.String("ua", r.UserAgent()),
+				slog.String("ip", r.RemoteAddr),
+				slog.Int("bw", ww.BytesWritten()),
+				slog.Int64("br", rc.BytesRead()),
+				slog.Int("status", ww.Status()),
+				slog.Duration("duration", time.Since(start)),
 			)
 		})
 	})
