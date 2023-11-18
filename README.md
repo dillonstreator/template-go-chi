@@ -1,4 +1,4 @@
-# go-chi
+# template-go-chi
 
 A minimal production-ready golang template for an HTTP server with [`go-chi/chi`](https://github.com/go-chi/chi).
 
