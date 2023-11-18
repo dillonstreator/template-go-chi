@@ -12,9 +12,9 @@ A minimal production-ready golang template for an HTTP server with [`go-chi/chi`
 Go 1.20+ required
 
 ```sh
-git clone https://github.com/dillonstreator/go-chi
+git clone https://github.com/dillonstreator/template-go-chi
 
-cd go-chi
+cd template-go-chi
 
 go run .
 ```
