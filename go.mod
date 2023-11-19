@@ -1,6 +1,6 @@
 module github.com/dillonstreator/go-chi
 
-go 1.21.3
+go 1.21
 
 require (
 	github.com/dillonstreator/opentelemetry-go-contrib/instrumentation/net/http/otelhttp v0.0.0-20231119004728-1e3363d236ad
