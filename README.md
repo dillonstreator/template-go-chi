@@ -5,7 +5,7 @@ A minimal production-ready golang HTTP server with [`go-chi/chi`](https://github
 ✅ Graceful shutdown \
 ✅ Tracing with OpenTelemetry \
 ✅ Trust proxy resolution \
-✅ Logging with `log/slog` \
+✅ Structured logging with `log/slog` \
 ✅ Rich request logging middleware including bytes written/read, request id, trace id, context propagation, and more \
 ✅ Panic recovery with rich logging including request id and trace id
 
