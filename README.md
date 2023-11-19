@@ -4,8 +4,10 @@ A minimal production-ready golang HTTP server with [`go-chi/chi`](https://github
 
 ✅ Graceful shutdown \
 ✅ Tracing with OpenTelemetry \
+✅ Trust proxy resolution \
 ✅ Logging with `log/slog` \
-✅ Rich request logging middleware including bytes written/read, request id, trace id, context propagation, and more
+✅ Rich request logging middleware including bytes written/read, request id, trace id, context propagation, and more \
+✅ Panic recovery with rich logging including request id and trace id
 
 [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/FdfQPz?referralCode=ToZEjF)
 
