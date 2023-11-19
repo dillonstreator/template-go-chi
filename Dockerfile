@@ -1,15 +1,19 @@
-FROM golang:1.21 AS builder
+FROM golang:1.21 as builder
 
 WORKDIR /app
+
+COPY go.mod go.sum ./
+RUN go mod download
 
 COPY . .
 
-RUN go build -o app .
+RUN CGO_ENABLED=0 go build -o /server
 
-FROM alpine:latest
+FROM gcr.io/distroless/base-debian11 as final
 
-WORKDIR /app
+COPY --from=builder /server /server
 
-COPY --from=builder /app/app .
+ENV PORT 3000
+EXPOSE $PORT
 
-CMD ["./app"]
+ENTRYPOINT ["/server"]
