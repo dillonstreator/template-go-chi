@@ -39,6 +39,7 @@ func main() {
 
 	mux := chi.NewMux()
 	mux.Use(middleware.Recoverer)
+	mux.Use(trustProxy(logger))
 	mux.Use(otelhttp.NewMiddleware("chi"))
 	mux.Use(func(h http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
