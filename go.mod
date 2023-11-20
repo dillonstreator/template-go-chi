@@ -4,6 +4,7 @@ go 1.21
 
 require (
 	github.com/dillonstreator/opentelemetry-go-contrib/instrumentation/net/http/otelhttp v0.0.0-20231119004728-1e3363d236ad
+	github.com/docker/go-units v0.5.0
 	github.com/go-chi/chi v1.5.5
 	github.com/google/uuid v1.4.0
 	go.opentelemetry.io/otel v1.21.0

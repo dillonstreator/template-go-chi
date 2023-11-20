@@ -58,7 +58,7 @@ func main() {
 
 			ww := middleware.NewWrapResponseWriter(w, 0)
 			rc := newByteReadCloser(r.Body)
-			r.Body = rc
+			r.Body = http.MaxBytesReader(w, rc, cfg.maxAllowedRequestBytes)
 
 			// overwrite `r`'s memory so that recoverer can access the log entry
 			*r = *setLogger(r, l)

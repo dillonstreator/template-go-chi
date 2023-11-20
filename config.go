@@ -7,6 +7,8 @@ import (
 	"os"
 	"strconv"
 	"time"
+
+	"github.com/docker/go-units"
 )
 
 type config struct {
@@ -18,6 +20,7 @@ type config struct {
 	serviceVersion           string
 	otelEnabled              bool
 	otelExporterOTLPEndpoint *url.URL
+	maxAllowedRequestBytes   int64
 }
 
 func newConfig() (*config, error) {
@@ -63,6 +66,11 @@ func newConfig() (*config, error) {
 		errs = append(errs, err)
 	}
 
+	maxAllowedRequestBytes, err := getEnv("MAX_ALLOWED_REQUEST_BYTES", units.FromHumanSize, int64(1000*1000*10))
+	if err != nil {
+		errs = append(errs, err)
+	}
+
 	if len(errs) > 0 {
 		return nil, errors.Join(errs...)
 	}
@@ -76,6 +84,7 @@ func newConfig() (*config, error) {
 		serviceVersion:           serviceVersion,
 		otelEnabled:              otelEnabled,
 		otelExporterOTLPEndpoint: otelExporterOTLPEndpoint,
+		maxAllowedRequestBytes:   maxAllowedRequestBytes,
 	}, nil
 }
 
