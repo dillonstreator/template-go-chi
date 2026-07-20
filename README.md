@@ -13,7 +13,7 @@ A minimal production-ready golang HTTP server with [`go-chi/chi`](https://github
 
 ## Installation
 
-Go 1.20+ required
+Go 1.25+ required
 
 ```sh
 git clone https://github.com/dillonstreator/template-go-chi
