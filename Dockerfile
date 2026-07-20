@@ -1,4 +1,4 @@
-FROM golang:1.21 as builder
+FROM golang:1.25.12 AS builder
 
 WORKDIR /app
 
@@ -7,13 +7,14 @@ RUN go mod download
 
 COPY . .
 
-RUN CGO_ENABLED=0 go build -o /server
+RUN CGO_ENABLED=0 go build -ldflags="-s -w" -o /server
 
-FROM gcr.io/distroless/base-debian11 as final
+FROM gcr.io/distroless/static-debian12:nonroot AS final
 
 COPY --from=builder /server /server
 
-ENV PORT 3000
-EXPOSE $PORT
+ENV PORT=3000
+EXPOSE 3000
 
+USER nonroot:nonroot
 ENTRYPOINT ["/server"]

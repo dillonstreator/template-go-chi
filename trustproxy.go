@@ -127,7 +127,7 @@ func getScheme(headers http.Header) string {
 
 	for _, schemaHeader := range schemeHeaders {
 		if value := headers.Get(schemaHeader); value != "" {
-			scheme = strings.ToLower(scheme)
+			scheme = strings.ToLower(value)
 			break
 		}
 	}

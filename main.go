@@ -13,13 +13,10 @@ import (
 	"syscall"
 	"time"
 
-	// NOTE: github.com/dillonstreator/opentelemetry-go-contrib/instrumentation/net/http/otelhttp is required
-	// until https://github.com/open-telemetry/opentelemetry-go-contrib/pull/4591 is reviewed/merged
-	// to ensure panic recovery logging includes request id and trace id
-	"github.com/dillonstreator/opentelemetry-go-contrib/instrumentation/net/http/otelhttp"
-	"github.com/go-chi/chi"
-	"github.com/go-chi/chi/middleware"
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 	"github.com/google/uuid"
+	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
 	"go.opentelemetry.io/otel/trace"
 )
 
@@ -38,9 +35,10 @@ func main() {
 	}
 
 	mux := chi.NewMux()
-	mux.Use(middleware.Recoverer)
 	mux.Use(trustProxy(logger))
 	mux.Use(otelhttp.NewMiddleware("chi"))
+	// Recoverer is registered after otel + request logging so panic logs include
+	// reqId/traceId. Official otelhttp does not mutate *http.Request in place.
 	mux.Use(func(h http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			start := time.Now()
@@ -56,7 +54,7 @@ func main() {
 
 			l := logger.With("reqId", reqID, "traceId", traceID)
 
-			ww := middleware.NewWrapResponseWriter(w, 0)
+			ww := middleware.NewWrapResponseWriter(w, r.ProtoMajor)
 			rc := newByteReadCloser(r.Body)
 			r.Body = http.MaxBytesReader(w, rc, cfg.maxAllowedRequestBytes)
 
@@ -69,7 +67,6 @@ func main() {
 			l.Info(
 				"Request handled",
 				slog.String("method", r.Method),
-				slog.String("method", r.Method),
 				slog.String("path", r.URL.Path),
 				slog.String("ua", r.UserAgent()),
 				slog.String("ip", r.RemoteAddr),
@@ -80,6 +77,7 @@ func main() {
 			)
 		})
 	})
+	mux.Use(middleware.Recoverer)
 
 	mux.Get(cfg.healthEndpoint, func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
