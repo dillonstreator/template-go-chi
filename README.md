@@ -9,7 +9,7 @@ A minimal production-ready golang HTTP server with [`go-chi/chi`](https://github
 ✅ Rich request logging middleware including bytes written/read, request id, trace id, context propagation, and more \
 ✅ Panic recovery with rich logging including request id and trace id
 
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/FdfQPz?referralCode=ToZEjF)
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/FdfQPz?referralCode=ToZEjF&utm_medium=integration&utm_source=template&utm_campaign=generic)
 
 ## Installation
 
